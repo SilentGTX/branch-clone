@@ -13,7 +13,6 @@ exports.signup = async (req, res, next) => {
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
-
         const newUser = await User.create({
             ...req.body,
             password: hashedPassword,
@@ -29,9 +28,9 @@ exports.signup = async (req, res, next) => {
             message: 'User registered sucessfully',
             token,
             user: {
-                _id: user._id,
-                username: user.username,
-                role: user.role,
+                _id: newUser._id,
+                username: newUser.username,
+                role: newUser.role,
             }
         });
 
