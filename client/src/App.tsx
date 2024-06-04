@@ -12,9 +12,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={!isAuthenticated ? <Login /> : <Navigate to='/dashboard' />} />
-        <Route path='/login' element={isAdmin ? <Navigate to='/register' /> : <Login />} />
-        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={isAdmin ? <Navigate to='/register' /> : (isAuthenticated ? <Navigate to='/dashboard' /> : <Login />)} />
+        <Route path='/register' element={isAuthenticated && !isAdmin ? <Navigate to='/login' /> : <Register />} />
         <Route path='/dashboard' element={isAuthenticated ? <Dashboard /> : <Navigate to='/login' />} />
       </Routes>
     </Router>

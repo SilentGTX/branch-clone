@@ -1,0 +1,29 @@
+.dashboard {
+    .nav-header, .navbar{
+        
+        margin-bottom: 0px;
+        border-bottom: 0px
+    }
+
+    
+
+    .fib-blue{
+        background-color: #013371 !important;
+        background: #013371 !important;
+    }
+
+    .navbar-brand {
+        font-size: small;
+    }
+
+    .ant-layout-header {
+        padding: 0 20px;
+    }
+
+    .logo-text{
+        margin-left:5px;
+    }
+
+ 
+}
+

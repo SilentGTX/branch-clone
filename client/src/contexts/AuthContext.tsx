@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 interface AuthContextType {
-    token: string | null;
+    token: string;
     userData: object | null;
     isAuthenticated: boolean;
     isAdmin: boolean;
-    login: (newToken: string, newData: object) => void;
+    login: (newToken: string, newData: { role: string; username: string; }) => void;
     logout: () => void;
 }
 
@@ -16,8 +16,8 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [token, setToken] = useState<string | null>(null);
-    const [userData, setUserData] = useState<object | null>(null);
+    const [token, setToken] = useState<string>('');
+    const [userData, setUserData] = useState<object | null>({});
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setToken(userToken);
             setUserData(user);
             setIsAuthenticated(true);
+            console.log('i fire once');
         }
     }, []);
 
@@ -39,18 +40,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         if (newData.role === 'admin') {
             setIsAdmin(true)
+        } else {
+            setToken(newToken);
+            setUserData(newData);
+            setIsAuthenticated(true);
         }
 
-        setToken(newToken);
-        setUserData(newData);
-        setIsAuthenticated(true);
     };
 
     const logout = () => {
         localStorage.removeItem('user_data');
-        setToken(null);
+        setToken('');
         setUserData(null);
         setIsAuthenticated(false);
+        setIsAdmin(false);
     };
 
     return (
