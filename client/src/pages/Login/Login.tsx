@@ -1,66 +1,64 @@
-import "./Login.css";
+import { Card, Flex, Typography, Form, Input, Button, Layout, Alert, Spin } from 'antd'
+import './Login.css'
+import useLogin from '../../hooks/useLogin'
 
-function Dashboard() {
+import { Link } from 'react-router-dom'
+
+
+function Login() {
+    const { loading, error, loginUser } = useLogin();
+    const handleLogin = (values: { username: string; password: string; }) => {
+        loginUser(values)
+    }
+
     return (
-        <div className="login-page">
+        <>
+            <nav className="navbar">
+                <Layout>
+                    <Layout.Header className="nav-header">
+                        <Link to="/login">
+                            <div className="logo" />
+                        </Link>
+                    </Layout.Header>
+                </Layout>
+            </nav >
+            <div className="register">
+                <Card className="form-container">
+                    <Flex gap='large' vertical flex={1}>
+                        <Typography.Title level={4} className="header">Административен модул</Typography.Title>
+                        <Form layout='vertical' onFinish={handleLogin} autoComplete='off'>
+                            <Form.Item label="Потребителско име" name="username" rules={[]}>
+                                <Input placeholder=""></Input>
+                            </Form.Item>
 
-
-            <nav className="navbar navbar-default" role="banner">
-                <div className="container-fluid">
-                    <div className="navbar-header">
-
-                        <a href="/oauth2-server/login" className="navbar-brand"></a>
-                    </div>
-
-                    <div className="collapse navbar-collapse" role="navigation">
-                        <ul className="nav navbar-nav">
-                            <li className="dropdown hidden-sm" is-open="lang.isOpen">
-                                <a href="" dropdown-toggle="" data-toggle="dropdown" className="dropdown-toggle ng-binding" ng-bind="selectLang.langDesc" aria-haspopup="true" aria-expanded="false">Македонски</a>
-                                <ul dropdown-menu="" className="dropdown-menu menu-lang">
-                                    <li ng-repeat="lang in langs" className="ng-scope">
-                                        <a href="">Македонски</a>
-                                    </li><li ng-repeat="lang in langs" className="ng-scope">
-                                        <a href="">English</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
-            <div className="form-wrapper">
-
-                <form action="">
-                    <div className="fields-wrapper box-border">
-                        <h3 className="form-header">Административен модул</h3>
-                        <fieldset>
-                            <div className="input">
-                                <label>Потребител</label>
-                                <input type="text" placeholder="" />
-                            </div>
-                            <div className="input">
-                                <label>Парола</label>
-                                <input type="password" />
-                            </div>
-                            <div className="input">
-                                <button id="submitBtn" className="btn btn-primary ng-scope" type="submit">ВХОД</button>
-                            </div>
-                        </fieldset>
-
-
-
-                    </div>
-
-                </form>
+                            <Form.Item label="Парола" name="password" rules={[]}>
+                                <Input.Password placeholder=""></Input.Password>
+                            </Form.Item>
+                            {error && (
+                                <Alert
+                                    description={error}
+                                    type='error'
+                                    showIcon
+                                    closable
+                                    className='alert'
+                                />
+                            )}
+                            <Form.Item>
+                                <Button
+                                    type="primary"
+                                    htmlType='submit'
+                                    size='large'
+                                    className='btn-register'
+                                >
+                                    {loading ? <Spin /> : 'Вход'}
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </Flex>
+                </Card >
             </div>
-
-        </div>
-
-
-
-
+        </>
     )
 }
 
-export default Dashboard
+export default Login

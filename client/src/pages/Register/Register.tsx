@@ -1,37 +1,12 @@
-import { Card, Flex, Typography, Form, Input, Button, Layout } from 'antd'
-import React from 'react'
+import { Card, Flex, Typography, Form, Input, Button, Layout, Spin, Alert } from 'antd'
 import './Register.css'
 import { Link } from 'react-router-dom'
-import i18next from 'i18next'
-i18next.init({
-    fallbackLng: 'en',
-    resources: {
-        en: {
-            translation: {
-                key: "hello world"
-            },
-            common: {
-                sign: "Sign in"
-            }
-        },
-        bg: {
-            translation: {
-                key: 'здрасти'
-            },
-            common: {
-                sign: "Вход"
-            }
-        }
-    }
-})
-
-
+import useSignup from '../../hooks/useSignup.ts'
 
 const Register = () => {
-    const handleRegister = (values) => {
-        //console.log(values);
-        console.log(i18next.t('common:sign', { lng: 'bg' }));
-
+    const { loading, error, registerUser } = useSignup();
+    const handleRegister = (values: { username: string; password: string; passwordConfirm: string }) => {
+        registerUser(values)
     }
 
     return (
@@ -50,7 +25,7 @@ const Register = () => {
                     <Flex gap='large' vertical flex={1}>
                         <Typography.Title level={4} className="header">Създаване на акаунт</Typography.Title>
                         <Form layout='vertical' onFinish={handleRegister} autoComplete='off'>
-                            <Form.Item label="Потребителско име" name="name" rules={[{
+                            <Form.Item label="Потребителско име" name="username" rules={[{
                                 required: true,
                                 message: 'Моля въведете потребителско име'
                             }]}>
@@ -74,8 +49,25 @@ const Register = () => {
                             ]}>
                                 <Input.Password placeholder=""></Input.Password>
                             </Form.Item>
+
+                            {error && (
+                                <Alert
+                                    description={error}
+                                    type='error'
+                                    showIcon
+                                    closable
+                                    className='alert'
+                                />
+                            )}
+
                             <Form.Item>
-                                <Button type="primary" htmlType='submit' size='large' className='btn-register'>Създай акаунт</Button>
+                                <Button
+                                    type={!loading ? 'primary' : undefined}
+                                    htmlType='submit'
+                                    size='large'
+                                    className='btn-register'>
+                                    {loading ? <Spin /> : 'Създай акаунт'}
+                                </Button>
                             </Form.Item>
                             <Form.Item>
                                 <Link to="/login">
