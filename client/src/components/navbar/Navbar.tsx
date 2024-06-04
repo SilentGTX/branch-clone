@@ -73,7 +73,7 @@ const Navbar = () => {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function breadcrumbRender(currentRoute: any, params: any, items: any) {
+    function breadcrumbRender(currentRoute: any, items: any) {
         const isLast = currentRoute?.path === items[items.length - 1]?.path;
 
         return isLast ? (

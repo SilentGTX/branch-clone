@@ -1,6 +1,3 @@
-
-
-import { useAuth } from '../../contexts/AuthContext'
 import './Dashboard.css'
 
 import Navbar from '../../components/navbar/Navbar';
