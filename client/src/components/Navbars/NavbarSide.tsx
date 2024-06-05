@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, ConfigProvider } from 'antd';
+import { Layout, Menu, Breadcrumb, ConfigProvider, type MenuProps } from 'antd';
 
 import './Navbars.css';
 
@@ -12,7 +12,7 @@ const { Content, Sider, Footer } = Layout;
 const NavbarSide: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
 
-    const mainMenuItems = MainMenu({ collapsed });
+    const mainMenuItems: MenuProps['items'] = MainMenu({ collapsed, setCollapsed });
     const breadcrumb = BreadcrumbMenu();
 
 
@@ -40,6 +40,7 @@ const NavbarSide: React.FC = () => {
 
                 >
                     <Menu
+
                         mode="inline"
                         defaultSelectedKeys={['1']}
                         defaultOpenKeys={['sub1']}

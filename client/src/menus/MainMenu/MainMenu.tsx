@@ -1,77 +1,59 @@
 import { type MenuProps } from 'antd';
-import { LaptopOutlined, NotificationOutlined, UserOutlined, SearchOutlined } from '@ant-design/icons';
-import { type SearchProps } from 'antd/es/input/Search';
-import Search from 'antd/es/input/Search';
+import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
+
+import SearchCustomer from './SearchCustomer';
+import { MenuDividerType } from 'antd/es/menu/interface';
 
 interface MainMenuProps {
     collapsed: boolean;
+    setCollapsed: (value: boolean) => void;
 }
 
+const MainMenu = ({ collapsed, setCollapsed }: MainMenuProps) => {
+    const searchCustomer = SearchCustomer({ collapsed, setCollapsed }) || [];
 
-const MainMenu = ({ collapsed }: MainMenuProps) => {
+    const dividerItem: MenuDividerType = {
+        key: 'divider',
+        type: 'divider',
+    };
 
-    const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
-
-
-    const menuItems: MenuProps['items'] = [
-        {
-            key: 'Search',
-            label: <Search
-                style={{ display: 'flex' }}
-                placeholder="Търси клиент"
-                onSearch={onSearch}
-            />,
-            icon: collapsed ? <SearchOutlined /> : null,
-            style: !collapsed ? {
-                paddingLeft: undefined,
-                padding: '5px',
-                width: '95%'
-            } : undefined,
-
-        },
+    const otherMenuItems: MenuProps['items'] = [
         {
             key: 'User',
             icon: <UserOutlined />,
             label: 'User',
-            children: new Array(4).fill(null).map((_, j) => {
-                const subKey = j + 1;
-                return {
-                    key: `sub2-option${subKey}`,
-                    label: `option${subKey}`,
-                };
-            }),
+            children: new Array(4).fill(null).map((_, j) => ({
+                key: `sub2-option${j + 1}`,
+                label: `option${j + 1}`,
+            })),
         },
         {
             key: 'sub3',
             icon: <LaptopOutlined />,
             label: 'Laptop',
-            children: new Array(4).fill(null).map((_, j) => {
-                const subKey = j + 1;
-                return {
-                    key: `sub3-option${subKey}`,
-                    label: `option${subKey}`,
-                };
-            }),
+            children: new Array(4).fill(null).map((_, j) => ({
+                key: `sub3-option${j + 1}`,
+                label: `option${j + 1}`,
+            })),
         },
         {
             key: 'sub4',
             icon: <NotificationOutlined />,
             label: 'Notifications',
-            children: new Array(4).fill(null).map((_, j) => {
-                const subKey = j + 1;
-                return {
-                    key: `sub4-option${subKey}`,
-                    label: `option${subKey}`,
-                };
-            }),
+            children: new Array(4).fill(null).map((_, j) => ({
+                key: `sub4-option${j + 1}`,
+                label: `option${j + 1}`,
+            })),
         },
     ];
 
+    const menuItems: MenuProps['items'] = [
+        ...searchCustomer,
+        dividerItem,
+        ...otherMenuItems
+    ];
 
-    return (
-        menuItems
-    );
+    return menuItems;
 };
 
-
-export default MainMenu
+export default MainMenu;

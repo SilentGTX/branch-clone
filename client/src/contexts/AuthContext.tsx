@@ -34,9 +34,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setUserData(user);
             setIsAuthenticated(true);
             if (user.role === 'admin') {
-                setIsAdmin(true);
+                setIsAdmin(false);
             }
-            console.log('i fire once');
         }
     }, []);
 
