@@ -1,11 +1,16 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
+interface UserDataInterface {
+    username: string;
+    role: string;
+}
+
 interface AuthContextType {
     token: string;
-    userData: object | null;
+    userData: UserDataInterface;
     isAuthenticated: boolean;
     isAdmin: boolean;
-    login: (newToken: string, newData: { role: string; username: string; }) => void;
+    login: (newToken: string, newData: UserDataInterface) => void;
     logout: () => void;
 }
 
@@ -17,7 +22,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [token, setToken] = useState<string>('');
-    const [userData, setUserData] = useState<object | null>({});
+    const [userData, setUserData] = useState<UserDataInterface>({ username: '', role: '' });
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
@@ -28,30 +33,33 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             setToken(userToken);
             setUserData(user);
             setIsAuthenticated(true);
+            if (user.role === 'admin') {
+                setIsAdmin(true);
+            }
             console.log('i fire once');
         }
     }, []);
 
-    const login = (newToken: string, newData: { role: string; username: string; }) => {
+    const login = (newToken: string, newData: UserDataInterface) => {
         localStorage.setItem(
             'user_data',
             JSON.stringify({ userToken: newToken, user: newData })
         );
 
+        setToken(newToken);
+        setUserData(newData);
+        setIsAuthenticated(true);
         if (newData.role === 'admin') {
-            setIsAdmin(true)
+            setIsAdmin(true);
         } else {
-            setToken(newToken);
-            setUserData(newData);
-            setIsAuthenticated(true);
+            setIsAdmin(false);
         }
-
     };
 
     const logout = () => {
         localStorage.removeItem('user_data');
         setToken('');
-        setUserData(null);
+        setUserData({ username: '', role: '' });
         setIsAuthenticated(false);
         setIsAdmin(false);
     };

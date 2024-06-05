@@ -1,6 +1,8 @@
 import './Dashboard.css'
 
-import Navbar from '../../components/navbar/Navbar';
+import NavbarTop from '../../components/Navbars/NavbarTop';
+import NavbarSide from '../../components/Navbars/NavbarSide';
+import { Layout } from 'antd';
 
 
 
@@ -10,7 +12,11 @@ function Dashboard() {
 
     return (
         <div className='dashboard'>
-            <Navbar />
+            <Layout style={{ minHeight: '100vh' }}>
+                <NavbarTop />
+                <NavbarSide />
+            </Layout>
+
         </div>
     )
 }
