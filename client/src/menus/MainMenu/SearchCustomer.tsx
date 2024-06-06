@@ -3,6 +3,7 @@ import { InputRef, MenuProps } from 'antd';
 import { type SearchProps } from 'antd/es/input/Search';
 import Search from 'antd/es/input/Search';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface MainMenuProps {
     collapsed: boolean;
@@ -12,10 +13,12 @@ interface MainMenuProps {
 const SearchCustomer = ({ collapsed, setCollapsed }: MainMenuProps): MenuProps['items'] => {
     const inputRef = useRef<InputRef>(null);
     const isFirstRender = useRef(true);
+    const navigate = useNavigate();
 
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
         console.log(info?.source, value);
         inputRef.current!.focus({ cursor: 'start' });
+        navigate('/manage-customer', { state: { searchValue: value } });
     };
 
     const [searchFocus, setSearchFocus] = useState(false);
@@ -25,6 +28,7 @@ const SearchCustomer = ({ collapsed, setCollapsed }: MainMenuProps): MenuProps['
             inputRef.current?.focus({ cursor: 'start' });
         }
         isFirstRender.current = false;
+        setSearchFocus(false);
     }, [collapsed, searchFocus]);
 
     const searchCustomer = [

@@ -10,11 +10,8 @@ const BreadcrumbMenu = () => {
                 title: 'Начало'
             },
             {
-                path: '/account',
-                title: 'Акаунт'
-            },
-            {
-                title: 'test'
+                path: '/manage-customer',
+                title: 'Управление на клиент'
             }
         ],
         render: // eslint-disable-next-line @typescript-eslint/no-explicit-any

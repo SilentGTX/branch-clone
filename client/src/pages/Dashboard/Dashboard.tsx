@@ -1,24 +1,47 @@
-import './Dashboard.css'
+import React from 'react';
+import './Dashboard.css';
 
 import NavbarTop from '../../components/Navbars/NavbarTop';
 import NavbarSide from '../../components/Navbars/NavbarSide';
-import { Layout } from 'antd';
+import { ConfigProvider, Layout } from 'antd';
+import DashboardContent from './DashboardContent';
+
+const Dashboard: React.FC = () => {
+
+    const DashboardLayout: React.FC = () => {
+        return (
+            <ConfigProvider
+                theme={{
+                    token: {
+                        borderRadius: 10,
+                        colorBgContainer: 'white',
+                    },
+                    components: {
+                        Layout: {
+                            triggerBg: "white !important",
+                            triggerColor: 'black !important',
+                        }
+                    },
+                }}
+            >
+                <Layout>
+                    <NavbarSide />
+                    <DashboardContent />
+                </Layout>
+            </ConfigProvider>
+        );
+    };
 
 
-
-
-
-function Dashboard() {
 
     return (
         <div className='dashboard'>
             <Layout style={{ minHeight: '100vh' }}>
                 <NavbarTop />
-                <NavbarSide />
+                <DashboardLayout />
             </Layout>
-
         </div>
-    )
+    );
 }
 
-export default Dashboard
+export default Dashboard;
